@@ -7,10 +7,11 @@ import 'package:youtube_controller/utils/utils.dart';
 
 import '../misc/colors.dart';
 import '../buttons/rectangle_button.dart';
-import 'package:dio/dio.dart';
+
 class MediaController extends StatefulWidget {
-  final Connection conn;
-   MediaController({super.key,required this.conn});
+  final void Function(bool) setAll;
+  final bool isPlaying;
+   MediaController({super.key,required this.setAll, this.isPlaying = false});
 
   @override
   State<MediaController> createState() => _MediaControllerState();
@@ -18,8 +19,8 @@ class MediaController extends StatefulWidget {
 
 class _MediaControllerState extends State<MediaController>
     with SingleTickerProviderStateMixin {
-  bool is_playing = false;
-  bool flag = false;
+  
+  bool flag = true;
   late AnimationController _animationController;
   
   _MediaControllerState( );
@@ -36,7 +37,7 @@ class _MediaControllerState extends State<MediaController>
     
 
     return Container(
-      width: AppSizes.button_group_width,
+      
       height: AppSizes.button_group_height,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -47,33 +48,34 @@ class _MediaControllerState extends State<MediaController>
               Socket s = await Socket.connect('localhost', 1234);
               s.add(utf8.encode("5         malak"));
               
-              s.add(utf8.encode("2         1"));
+              s.add(utf8.encode("1         5"));
+              s.close();
               String result = await utf8.decoder.bind(s).join();
-               s.close(); // probably need to close the socket
-              print(result);
+              var lists = json.decode(result);
+
+              print(lists['Playing']);
                   
                   },
           child :RectangleButton(
             icon: Icons.forward_10_rounded,
             height: AppSizes.rectangle_button_height,
             width: AppSizes.rectangle_button_width,
-            color: flag==true?AppColors.defaultButtonColor:Colors.black,
+            color:AppColors.defaultButtonColor,
           )),
 
           GestureDetector(
-            onTap: (){
-              if (is_playing){
-                _animationController.reverse();
-                setState(() {
-                  is_playing = false;
-                });
-              }
-              else{
-                 _animationController.forward();
-                setState(() {
-                  is_playing = true;
-                });
-              }
+            onTap: () async{
+              
+              var response = await send_command(deviceName: 'Samsung A70',command: '1');
+              print(response);
+              widget.setAll(response['Playing']);
+
+              if (widget.isPlaying)
+                _animationController.forward();
+              else
+                 _animationController.reverse();
+                
+              
               
             },
               child: AnimatedIcon(
@@ -84,9 +86,9 @@ class _MediaControllerState extends State<MediaController>
           )),
           
           GestureDetector(
-            onTap: (){
-            print("im tapped!");
-              
+            onTap: () async{
+            
+              var response = await send_command(deviceName: 'Samsung A70',command: '6');
               
             },
           child :RectangleButton(

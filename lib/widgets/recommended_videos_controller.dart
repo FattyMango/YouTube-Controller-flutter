@@ -13,7 +13,7 @@ class RecommendedVideosController extends StatelessWidget {
     
 
     return  Container(
-      height: MediaQuery.of(context).size.height/2.4,
+      height: MediaQuery.of(context).size.height/2.5,
       child: SingleChildScrollView(
         child: Column(
           

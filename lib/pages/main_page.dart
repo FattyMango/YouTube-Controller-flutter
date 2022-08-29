@@ -1,26 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:youtube_controller/misc/colors.dart';
 import 'package:youtube_controller/widgets/remote_controller.dart';
-import 'package:youtube_controller/buttons/recommended_video.dart';
-import 'package:youtube_controller/widgets/bottom_sheet_controller.dart';
+
+import 'package:youtube_controller/widgets/bottom_sheet_bar_controller.dart';
 import 'package:youtube_controller/widgets/recommended_videos_controller.dart';
 import 'package:percent_indicator/percent_indicator.dart';
-//---------------------------- ParentWidget ----------------------------
-
-class ParentWidget extends StatefulWidget {
-  const ParentWidget({super.key});
+class MainPage extends StatefulWidget {
+  const MainPage({super.key});
 
   @override
-  State<ParentWidget> createState() => _ParentWidgetState();
+  State<MainPage> createState() => _MainPageState();
 }
 
-class _ParentWidgetState extends State<ParentWidget> {
-  bool _active = true;
+class _MainPageState extends State<MainPage> {
+  bool isBottomSheetActive = true;
   String imageName = "img/callinu.jpg";
   String titleName = "Outlandish - Callin U (Official Video)";
-  void _handleTapboxChanged(bool newValue) {
+  
+
+  void _handleBottomSheetClicked() {
     setState(() {
-      _active = newValue;
+      isBottomSheetActive = !isBottomSheetActive;
     });
   }
 
@@ -31,46 +31,9 @@ class _ParentWidgetState extends State<ParentWidget> {
     });
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      child: TapboxC(
-        active: _active,
-        onChanged: _handleTapboxChanged,
-        handleRecommendedVideoClicked: _handleRecommendedVideoClicked,
-        titleName: titleName,
-        imageName: imageName,
-      ),
-    );
-  }
-}
 
-class TapboxC extends StatefulWidget {
-  TapboxC(
-      {super.key,
-      this.active = false,
-      required this.onChanged,
-      required this.titleName,
-      required this.imageName,
-      required this.handleRecommendedVideoClicked});
 
-  final bool active;
-  final ValueChanged<bool> onChanged;
-  final void Function(String, String) handleRecommendedVideoClicked;
-  String imageName;
-  String titleName;
-  @override
-  State<TapboxC> createState() => _TapboxCState();
-}
 
-class _TapboxCState extends State<TapboxC> {
-  void _handleTap() {
-    widget.onChanged(!widget.active);
-  }
-
-  void _handleRecommendedVideoClicked(String imageName, String titleName) {
-    widget.handleRecommendedVideoClicked(imageName, titleName);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +53,7 @@ class _TapboxCState extends State<TapboxC> {
                         color: Colors.white,
                         image: DecorationImage(
                           fit: BoxFit.fitWidth,
-                          image: AssetImage(widget.imageName),
+                          image: AssetImage(imageName),
                           opacity: 0.5,
                         ),
                         backgroundBlendMode: BlendMode.darken),
@@ -112,23 +75,23 @@ class _TapboxCState extends State<TapboxC> {
         bottomSheet: Container(
             decoration: BoxDecoration(
                 color: Colors.black87.withOpacity(0.8),
-                borderRadius: widget.active
+                borderRadius: isBottomSheetActive
                     ? BorderRadius.circular(0)
                     : BorderRadius.only(
                         topLeft: Radius.circular(5),
                         topRight: Radius.circular(5))),
             width: double.maxFinite,
             height:
-                widget.active ? 80 : MediaQuery.of(context).size.height / 1.8,
+                isBottomSheetActive ? 80 : MediaQuery.of(context).size.height / 1.8,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                BottomSheetController(
-                    onTap: _handleTap,
-                    is_active: widget.active,
-                    title: widget.titleName),
+                BottomBarSheetController(
+                    onTap: _handleBottomSheetClicked,
+                    is_active: isBottomSheetActive,
+                    title: titleName),
                 SizedBox(height: 20),
-                !widget.active
+                !isBottomSheetActive
                     ? RecommendedVideosController(
                         handleRecommendedVideoClicked:
                             _handleRecommendedVideoClicked,
@@ -137,5 +100,4 @@ class _TapboxCState extends State<TapboxC> {
               ],
             )),
         body: RemoteController());
-  }
-}
+  }}

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class BottomSheetController extends StatelessWidget {
+class BottomBarSheetController extends StatelessWidget {
   final void Function() onTap;
   bool is_active ;
   final String title;
-   BottomSheetController({super.key,required this.onTap,required this.is_active, required this.title});
+   BottomBarSheetController({super.key,required this.onTap,required this.is_active, required this.title});
 
   @override
   Widget build(BuildContext context) {

@@ -29,11 +29,11 @@ class RecommendedVideo extends StatelessWidget {
                     borderRadius: BorderRadius.circular(5),
                     color: Colors.black87.withOpacity(0.8),
                     image: DecorationImage(
-                        fit: BoxFit.fitWidth, image: AssetImage(imageName))),
+                        fit: BoxFit.cover, image: AssetImage(imageName))),
                 ), 
                 Positioned(
                 left:MediaQuery.of(context).size.width / 2.7 ,
-                top: 75,
+                top: MediaQuery.of(context).size.height / 12,
                 child: Container(
                   width: 35,
                   height: 22.5,
@@ -64,12 +64,16 @@ class RecommendedVideo extends StatelessWidget {
                   Padding(
                       padding: const EdgeInsets.only(top: 5, bottom: 5),
                       child: Container(
-                        width: 40,
+                        constraints: BoxConstraints(
+                          maxWidth: 40,
+                          minWidth: 25
+                        ),
+                        width: MediaQuery.of(context).size.width / 12,
                         decoration: BoxDecoration(
                             border: Border.all(color: Colors.white),
-                            borderRadius: BorderRadius.circular(30),
+                            borderRadius: BorderRadius.circular(50),
                             image: DecorationImage(
-                        fit: BoxFit.fitWidth, image: AssetImage("img/channel.jpg"))),
+                        fit: BoxFit.cover, image: AssetImage("img/channel.jpg"))),
                       )),
                   SizedBox(
                     width: 5,
@@ -88,6 +92,7 @@ class RecommendedVideo extends StatelessWidget {
                           ),
                         ),
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Container(
                               width: MediaQuery.of(context).size.width / 7,

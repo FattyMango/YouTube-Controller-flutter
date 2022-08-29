@@ -12,80 +12,60 @@ import '../pages/main_page.dart';
 import '../buttons/rectangle_button.dart';
 
 class RemoteController extends StatefulWidget {
-  
   const RemoteController({super.key});
 
   @override
   State<RemoteController> createState() => _RemoteControllerState();
 }
 
-class _RemoteControllerState extends State<RemoteController>  {
-  Connection conn = new Connection();
-  @override
+class _RemoteControllerState extends State<RemoteController> {
+ 
+  bool isPlaying = false;
+  void setAll(bool isPlaying){
 
+      setState(() {
+        this.isPlaying = isPlaying;
+      });
+  }
   @override
   Widget build(BuildContext context) {
-   
-    return  Center(
-          child: Container(
-            color: AppColors.mainBackgroundColor,
-           width: 400,
-           height: MediaQuery.of(context).size.height,
-           child: Padding(
-             padding: const EdgeInsets.only(right: 30,left: 30,bottom:75 ,top: 20),
-             child: SingleChildScrollView(
-               child: Column(
-                 crossAxisAlignment: CrossAxisAlignment.center,
-                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                 children: [
-                  SearchBarController(),
-                   
-                   Row(
-                     crossAxisAlignment: CrossAxisAlignment.center,
-                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                     children: [
-                       
-                       VolumeController(),
-             
-                       RectangleButton(
+    return Center(
+      child: Container(
+        color: AppColors.mainBackgroundColor,
+        width: MediaQuery.of(context).size.width-10,
+        height: MediaQuery.of(context).size.height,
+        child: Padding(
+          padding:
+              const EdgeInsets.only(right: 20, left: 20, bottom: 75, top: 20),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                SearchBarController(),
+                Container(
+                  
+                  child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        VolumeController(),
+                        RectangleButton(
                           icon: Icons.power_settings_new_rounded,
-                           height:AppSizes.rectangle_button_width*3 ,
-                           width: AppSizes.rectangle_button_height*1.5,
-                           color: AppColors.defaultButtonColor,
-                         ),
-                       
-                       
-                       MediaController(conn:conn),
-                       
-                     ]),
-                   
-                   SizedBox(height:0),
-                   
-                   
-                     Row(
-                       children: [
-                        QualityController() 
-                       ],
-                     ),
-                   
-                   
-                      Row(
-                        
-                       children: [
-                        ShortcutController() 
-                       ],
-                     ),  
-                        
-                        ],
-               ),
-             ),
-           ),
-              ),
-        
-      
-      
+                          height: AppSizes.rectangle_button_width * 3,
+                          width: AppSizes.rectangle_button_height * 1.5,
+                          color: AppColors.trueButtonColor
+                        ),
+                        MediaController(setAll:setAll,isPlaying: isPlaying,),
+                      ]),
+                ),
+                QualityController(),
+                ShortcutController(),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
-        
-    
   }
 }
