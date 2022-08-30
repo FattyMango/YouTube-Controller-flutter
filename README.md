@@ -1,5 +1,5 @@
 # youtube_controller
-
+[![wakatime](https://wakatime.com/badge/github/FattyMango/YouTube-Controller.svg)](https://wakatime.com/badge/github/FattyMango/YouTube-Controller)
 A new Flutter project.
 
 ## Getting Started
