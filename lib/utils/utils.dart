@@ -12,15 +12,16 @@ class Connection {
 
   Connection({
     required this.deviceName,
-    this.ADDRESS = '192.168.1.14',
+    this.ADDRESS = '',
     this.PORT = 1234,
   });
 
   Future<bool> setup() async {
-
-    
-  
+    print(this.ADDRESS);
+    if (this.ADDRESS!='')
     this._socket = await Socket.connect(this.ADDRESS , this.PORT);
+    else
+    this._socket = await Socket.connect("192.168.1.121" , this.PORT);
     
     this._socket.add(utf8.encode(header_serializer(this.deviceName)));
 
@@ -56,37 +57,37 @@ Future<dynamic> send_command(
     String? option,
     String? ADDRESS,
     int? PORT}) async {
-      await scanNetwork();
-  // Connection c = Connection(deviceName: deviceName);
-  // await c.setup();
-  // var response;
-  // if (int.parse(command) >= 8)  response = await c.send_message(command:command,option:option.toString());
-  // else response = await c.send_message(command:command);
-  // return response;
+    print('i got' +ADDRESS!);
+  Connection c = Connection(deviceName: deviceName,ADDRESS: ADDRESS);
+  await c.setup();
+  var response;
+  if (int.parse(command) >= 8)  response = await c.send_message(command:command,option:option.toString());
+  else response = await c.send_message(command:command);
+  return response;
 }
 
-Future<void> scanNetwork() async {
-  await (NetworkInfo().getWifiIP()).then(
-    (ip) async {
-      final String subnet = ip!.substring(0, ip.lastIndexOf('.'));
-      const port = 22;
-      for (var i = 0; i < 256; i++) {
-        String ip = '$subnet.$i';
-        await Socket.connect(ip, port, timeout: Duration(milliseconds: 50))
-          .then((socket) async {
-            await InternetAddress(socket.address.address)
-              .reverse()
-              .then((value) {
-                print(value.host);
-                print(socket.address.address);
-              }).catchError((error) {
-                print(socket.address.address);
-                print('Error: $error');
-              });
-            socket.destroy();
-          }).catchError((error) => null);
-      }
-    },
-  );
-  print('Done');
-}
+// Future<void> scanNetwork() async {
+//   await (NetworkInfo().getWifiIP()).then(
+//     (ip) async {
+//       final String subnet = ip!.substring(0, ip.lastIndexOf('.'));
+//       print(subnet);
+//       const port = 22;
+//       for (var i = 0; i < 256; i++) {
+//         String ip = '$subnet.$i';
+//         await Socket.connect(ip, port, timeout: Duration(milliseconds: 50))
+//           .then((socket) async {
+//             await InternetAddress(socket.address.address)
+//               .reverse()
+//               .then((value) {
+//                 print(value.host);
+//                 print(socket.address.address);
+//               }).catchError((error) {
+                
+//               });
+//             socket.destroy();
+//           }).catchError((error) => null);
+//       }
+//     },
+//   );
+//   print('Done');
+// }

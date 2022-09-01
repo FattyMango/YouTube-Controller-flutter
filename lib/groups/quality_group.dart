@@ -7,7 +7,8 @@ import '../buttons/rectangle_button.dart';
 import '../utils/utils.dart';
 
 class QualityController extends StatelessWidget {
-  const QualityController({super.key});
+  final String IpAddress;
+  const QualityController({super.key, required this.IpAddress});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +23,7 @@ class QualityController extends StatelessWidget {
           children: [
              GestureDetector(
               onTap: () async{
-              var response = await send_command(deviceName: 'Samsung A70',command: '8 ',option:'1' );
+              var response = await send_command(deviceName: 'Samsung A70',command: '8 ',option:'1' ,ADDRESS: IpAddress);
               
             },
                child: RectangleButton(
@@ -34,7 +35,7 @@ class QualityController extends StatelessWidget {
              ),
              GestureDetector(
               onTap: () async{
-              var response = await send_command(deviceName: 'Samsung A70',command: '8 ',option:'2' );
+              var response = await send_command(deviceName: 'Samsung A70',command: '8 ',option:'2',ADDRESS: IpAddress );
               
             },
                child: RectangleButton(
@@ -48,7 +49,7 @@ class QualityController extends StatelessWidget {
              ),
             GestureDetector(
               onTap: () async{
-              var response = await send_command(deviceName: 'Samsung A70',command: '8 ',option:'3' );
+              var response = await send_command(deviceName: 'Samsung A70',command: '8 ',option:'3',ADDRESS: IpAddress );
               
             },
               child: RectangleButton(

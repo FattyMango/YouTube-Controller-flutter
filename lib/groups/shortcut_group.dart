@@ -7,7 +7,8 @@ import '../buttons/rectangle_button.dart';
 import '../utils/utils.dart';
 
 class ShortcutController extends StatelessWidget {
-  const ShortcutController({super.key});
+  final String IpAddress;
+  const ShortcutController({super.key, required this.IpAddress});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +23,7 @@ class ShortcutController extends StatelessWidget {
            GestureDetector(
             onTap: () async{
             
-              var response = await send_command(deviceName: 'Samsung A70',command: '7');
+              var response = await send_command(deviceName: 'Samsung A70',command: '7',ADDRESS: IpAddress);
               
             },
              child: RoundedButton(
@@ -35,7 +36,7 @@ class ShortcutController extends StatelessWidget {
           GestureDetector(
             onTap: () async{
             
-              var response = await send_command(deviceName: 'Samsung A70',command: '2');
+              var response = await send_command(deviceName: 'Samsung A70',command: '2',ADDRESS: IpAddress);
               
             },
             child: RoundedButton(
@@ -48,7 +49,7 @@ class ShortcutController extends StatelessWidget {
           GestureDetector(
             onTap: () async{
             
-              var response = await send_command(deviceName: 'Samsung A70',command: '3');
+              var response = await send_command(deviceName: 'Samsung A70',command: '3',ADDRESS: IpAddress);
               
             },
             child: RoundedButton(

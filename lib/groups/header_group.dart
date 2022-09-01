@@ -7,7 +7,8 @@ import '../buttons/rectangle_button.dart';
 import '../utils/utils.dart';
 
 class SearchBarController extends StatefulWidget {
-  SearchBarController({super.key});
+  final String IpAddress;
+  SearchBarController({super.key, required this.IpAddress});
 
   @override
   State<SearchBarController> createState() => _SearchBarControllerState();
@@ -31,7 +32,7 @@ class _SearchBarControllerState extends State<SearchBarController> {
   void _handleSearchSubmitted(String input) async{
     
     if(input.isNotEmpty)
-      var response = await send_command(deviceName: 'Samsung A70',command: '10',option:input);
+      var response = await send_command(deviceName: 'Samsung A70',command: '10',option:input,ADDRESS: widget.IpAddress);
   }
 
   @override

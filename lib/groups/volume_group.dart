@@ -9,7 +9,8 @@ import '../buttons/rectangle_button.dart';
 import '../utils/utils.dart';
 
 class VolumeController extends StatelessWidget {
-  const VolumeController({super.key});
+  final String IpAddress;
+  const VolumeController({super.key, required this.IpAddress});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +30,7 @@ class VolumeController extends StatelessWidget {
                     ),
              GestureDetector(
               onTap: () async{
-              var response = await send_command(deviceName: 'Samsung A70',command: '4');
+              var response = await send_command(deviceName: 'Samsung A70',command: '4',ADDRESS: IpAddress);
               
             },
                child: RoundedButton(

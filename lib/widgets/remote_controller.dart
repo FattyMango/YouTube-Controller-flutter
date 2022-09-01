@@ -12,7 +12,8 @@ import '../pages/main_page.dart';
 import '../buttons/rectangle_button.dart';
 
 class RemoteController extends StatefulWidget {
-  const RemoteController({super.key});
+  String IpAddress = '';
+   RemoteController({super.key});
 
   @override
   State<RemoteController> createState() => _RemoteControllerState();
@@ -27,8 +28,15 @@ class _RemoteControllerState extends State<RemoteController> {
         this.isPlaying = isPlaying;
       });
   }
+  void _handleIpFieldSubmitted(input){
+
+setState(() {
+  widget.IpAddress = input;
+});
+}
   @override
   Widget build(BuildContext context) {
+    
     return Center(
       child: Container(
         color: AppColors.mainBackgroundColor,
@@ -42,25 +50,44 @@ class _RemoteControllerState extends State<RemoteController> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                SearchBarController(),
+                 Container(
+              width:  MediaQuery.of(context).size.width-110,
+              height: 40,
+              decoration: BoxDecoration(
+                  color: Colors.grey.withOpacity(0.2), borderRadius: BorderRadius.circular(5)),
+              child: TextField(
+                decoration: InputDecoration(
+                  
+                    prefixIcon: const Icon(Icons.network_wifi_2_bar_rounded),
+                    hintText: 'Enter IP Address.',
+                    border: InputBorder.none),
+                
+                onSubmitted: (input){_handleIpFieldSubmitted(input);},
+                onChanged: (input){_handleIpFieldSubmitted(input);},
+              ),
+            ),
+                
+                SizedBox(height: 5,),
+                SearchBarController(IpAddress:widget.IpAddress),
                 Container(
                   
                   child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      
                       children: [
-                        VolumeController(),
+                        VolumeController(IpAddress: widget.IpAddress,),
                         RectangleButton(
                           icon: Icons.power_settings_new_rounded,
                           height: AppSizes.rectangle_button_width * 3,
                           width: AppSizes.rectangle_button_height * 1.5,
                           color: AppColors.trueButtonColor
                         ),
-                        MediaController(setAll:setAll,isPlaying: isPlaying,),
+                        MediaController(setAll:setAll,isPlaying: isPlaying,IpAddress:widget.IpAddress),
                       ]),
                 ),
-                QualityController(),
-                ShortcutController(),
+                QualityController(IpAddress: widget.IpAddress,),
+                ShortcutController(IpAddress: widget.IpAddress,),
               ],
             ),
           ),

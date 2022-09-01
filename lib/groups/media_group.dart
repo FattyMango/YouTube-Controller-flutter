@@ -11,7 +11,8 @@ import '../buttons/rectangle_button.dart';
 class MediaController extends StatefulWidget {
   final void Function(bool) setAll;
   final bool isPlaying;
-   MediaController({super.key,required this.setAll, this.isPlaying = false});
+  final String IpAddress;
+  MediaController({super.key,required this.setAll, this.isPlaying = false, required this.IpAddress});
 
   @override
   State<MediaController> createState() => _MediaControllerState();
@@ -45,16 +46,8 @@ class _MediaControllerState extends State<MediaController>
           GestureDetector(
             
             onTap: ()async {
-              Socket s = await Socket.connect('localhost', 1234);
-              s.add(utf8.encode("5         malak"));
               
-              s.add(utf8.encode("1         5"));
-              s.close();
-              String result = await utf8.decoder.bind(s).join();
-              var lists = json.decode(result);
-
-              print(lists['Playing']);
-                  
+                  var response = await send_command(deviceName: 'Samsung A70',command: '5',ADDRESS: widget.IpAddress);
                   },
           child :RectangleButton(
             icon: Icons.forward_10_rounded,
@@ -65,8 +58,8 @@ class _MediaControllerState extends State<MediaController>
 
           GestureDetector(
             onTap: () async{
-              
-              var response = await send_command(deviceName: 'Samsung A70',command: '1');
+              // print(widget.IpAddress);
+              var response = await send_command(deviceName: 'Samsung A70',command: '1',ADDRESS: widget.IpAddress);
               print(response);
               widget.setAll(response['Playing']);
 
@@ -88,7 +81,7 @@ class _MediaControllerState extends State<MediaController>
           GestureDetector(
             onTap: () async{
             
-              var response = await send_command(deviceName: 'Samsung A70',command: '6');
+              var response = await send_command(deviceName: 'Samsung A70',command: '6',ADDRESS: widget.IpAddress);
               
             },
           child :RectangleButton(

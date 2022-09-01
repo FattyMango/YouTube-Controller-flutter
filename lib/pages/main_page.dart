@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:youtube_controller/misc/colors.dart';
 import 'package:youtube_controller/widgets/remote_controller.dart';
 
@@ -16,7 +17,7 @@ class _MainPageState extends State<MainPage> {
   bool isBottomSheetActive = true;
   String imageName = "img/callinu.jpg";
   String titleName = "Outlandish - Callin U (Official Video)";
-  
+  String IpAddress = '';
 
   void _handleBottomSheetClicked() {
     setState(() {
@@ -99,5 +100,10 @@ class _MainPageState extends State<MainPage> {
                     : Container()
               ],
             )),
-        body: RemoteController());
+        body:  
+            RemoteController(),
+           
+           
+          
+        );
   }}
