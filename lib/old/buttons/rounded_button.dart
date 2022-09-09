@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:youtube_controller/misc/colors.dart';
-import 'package:youtube_controller/misc/sizes.dart';
+import 'package:youtube_controller/old/misc/colors.dart';
+import 'package:youtube_controller/old/misc/sizes.dart';
 
 class RoundedButton extends StatelessWidget {
   final IconData? icon;

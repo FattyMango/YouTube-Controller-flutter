@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:youtube_controller/misc/sizes.dart';
+import 'package:youtube_controller/old/misc/sizes.dart';
 import 'package:youtube_controller/utils/utils.dart';
 
 import '../misc/colors.dart';

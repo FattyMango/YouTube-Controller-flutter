@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:youtube_controller/misc/colors.dart';
+import 'package:youtube_controller/old/misc/colors.dart';
 
 import '../misc/sizes.dart';
 

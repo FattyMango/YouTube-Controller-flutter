@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:network_info_plus/network_info_plus.dart';
 
 class Connection {
@@ -28,14 +29,14 @@ class Connection {
     return true;
   }
 
-  Future<dynamic> send_message({required String command,String option = ''}) async {
+  Future<String> send_message({required String command,String option = ''}) async {
     if(option!='')
       this._socket.add(utf8.encode(header_serializer(command+option)));
     else
       this._socket.add(utf8.encode(header_serializer(command)));
     this._socket.close();
     String results = await utf8.decoder.bind(this._socket).join();
-    return json.decode(results);
+    return results;
   }
 }
 
@@ -47,7 +48,7 @@ String header_serializer(String deviceName) {
   for (var i = 0; i < 10 - len.toString().length; i++) payload += ' ';
 
   payload += deviceName;
-
+  // print(payload);
   return payload;
 }
 
@@ -61,33 +62,9 @@ Future<dynamic> send_command(
   Connection c = Connection(deviceName: deviceName,ADDRESS: ADDRESS);
   await c.setup();
   var response;
-  if (int.parse(command) >= 8)  response = await c.send_message(command:command,option:option.toString());
+  if (int.parse(command) >= 50)  response = await c.send_message(command:command,option:option.toString());
   else response = await c.send_message(command:command);
-  return response;
-}
+  print(response);
 
-// Future<void> scanNetwork() async {
-//   await (NetworkInfo().getWifiIP()).then(
-//     (ip) async {
-//       final String subnet = ip!.substring(0, ip.lastIndexOf('.'));
-//       print(subnet);
-//       const port = 22;
-//       for (var i = 0; i < 256; i++) {
-//         String ip = '$subnet.$i';
-//         await Socket.connect(ip, port, timeout: Duration(milliseconds: 50))
-//           .then((socket) async {
-//             await InternetAddress(socket.address.address)
-//               .reverse()
-//               .then((value) {
-//                 print(value.host);
-//                 print(socket.address.address);
-//               }).catchError((error) {
-                
-//               });
-//             socket.destroy();
-//           }).catchError((error) => null);
-//       }
-//     },
-//   );
-//   print('Done');
-// }
+  return json.decode(response, reviver: null);
+}

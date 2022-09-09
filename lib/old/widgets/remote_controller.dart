@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:youtube_controller/groups/header_group.dart';
-import 'package:youtube_controller/groups/media_group.dart';
-import 'package:youtube_controller/groups/quality_group.dart';
-import 'package:youtube_controller/groups/shortcut_group.dart';
-import 'package:youtube_controller/misc/colors.dart';
+import 'package:youtube_controller/old/groups/header_group.dart';
+import 'package:youtube_controller/old/groups/media_group.dart';
+import 'package:youtube_controller/old/groups/quality_group.dart';
+import 'package:youtube_controller/old/groups/shortcut_group.dart';
+import 'package:youtube_controller/old/misc/colors.dart';
 import 'package:youtube_controller/utils/utils.dart';
 
 import '../groups/volume_group.dart';
 import '../misc/sizes.dart';
-import '../pages/main_page.dart';
+import '../../pages/main_page_old.dart';
 import '../buttons/rectangle_button.dart';
 
 class RemoteController extends StatefulWidget {

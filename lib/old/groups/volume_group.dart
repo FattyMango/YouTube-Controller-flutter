@@ -1,12 +1,12 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:youtube_controller/buttons/rounded_button.dart';
+import 'package:youtube_controller/old/buttons/rounded_button.dart';
 
 import '../misc/colors.dart';
 import '../misc/sizes.dart';
 import '../buttons/rectangle_button.dart';
-import '../utils/utils.dart';
+import '../../utils/utils.dart';
 
 class VolumeController extends StatelessWidget {
   final String IpAddress;

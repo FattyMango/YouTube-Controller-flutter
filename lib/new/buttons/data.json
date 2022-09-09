@@ -1,0 +1,38 @@
+{"page_status": {
+      "state": "watch",
+      "url": "https://www.youtube.com/watch?v=ynTD0o10M7o&ab_channel=ScaryPockets"
+   },
+   "video_status": {
+      "playing": "false",
+      "muted": "true",
+      "full_screen": "true",
+      "current_time": "0:00",
+      "full_time": "5:01",
+      "title": "telepat\u00eda | Kali Uchis | funk cover ft. Vidya Vox",
+      "views": "1,349,699 views",
+      "auto_play": "false",
+      "subtitle_pressed": "false",
+      "subtitle_available": "true",
+      "subscribed": "false",
+      "like": "false",
+      "dislike": "false",
+      "channel": "Scary Pockets",
+      "channel_img": "https://yt3.ggpht.com/ytc/AMLnZu9bLmH-YOSQ_GY-VoJQpbWAdWdpx7XtNCOmqTVA8Q=s48-c-k-c0x00ffffff-no-rj",
+      "url": "https://www.youtube.com/watch?v=ynTD0o10M7o&ab_channel=ScaryPockets",
+      "thumbnail": "https://img.youtube.com/vi/ynTD0o10M7o/maxresdefault.jpg"
+   },
+   "suggestions": {
+      "length": 18,
+      "data": [
+         {
+            "url": "https://www.youtube.com/watch?v=2CCNswShJRc",
+            "duration": "3:40",
+            "title": "Daft Punk | Something About Us | Pomplamoose",
+            "channel": "PomplamooseMusic",
+            "views": "15M views",
+            "thumbnail": "https://img.youtube.com/vi/2CCNswShJRc/maxresdefault.jpg"
+         }
+         
+      ]
+   }
+}
