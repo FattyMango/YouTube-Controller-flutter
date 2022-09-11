@@ -10,6 +10,7 @@ import 'package:youtube_controller/new/widgets/currently_playing.dart';
 import 'package:youtube_controller/new/widgets/header_group.dart';
 
 import '../new/widgets/videos_controller.dart';
+import '../utils/utils.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -19,6 +20,7 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+  bool isON =false;
   String state = 'home';
   String url = '';
 dynamic currentVideo={
@@ -48,8 +50,15 @@ int suggestionsLength = 0;
 List suggestions = [];
 
 String IpAddress = '';
-  void _handleIpFieldSubmitted(input){
+void _handleIpFieldSubmitted(input)async{
 
+setState(() {
+  IpAddress = input;
+});
+var response = await send_command(deviceName: 'Samsung A70',command: '0',ADDRESS: IpAddress);
+setResponse(response);
+}
+void _handleIpFieldChanged(input){
 setState(() {
   IpAddress = input;
 });
@@ -60,15 +69,20 @@ bool __cleanBoolValue(value){
 void setResponse (response){
 
   setState(() {
-    Map<String, dynamic> data = jsonDecode(response); // import 'dart:convert';
-      // print(data['suggestions']['data']) ;      
+    Map<String, dynamic> data = jsonDecode(response); 
+    print(response);
+    try {isON = __cleanBoolValue(data['is_on']);}
+    catch(e){};
+    print(isON);
     try{
+      
+      
       state = data['page_status']['state'];
       url = data['page_status']['url'];
     } 
     catch(e){
       print('e');
-    };
+    }
     if (state == 'watch'){
     try {  
     currentVideoStatus['playing']                = __cleanBoolValue(data['video_status']['playing']);   
@@ -91,7 +105,7 @@ void setResponse (response){
     
   }
   catch(e){};
-  };
+  }
   
   try{
   suggestionsLength = data['suggestions']['length']; 
@@ -101,6 +115,8 @@ void setResponse (response){
   catch(e){};
 }); 
 }
+  
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -139,7 +155,7 @@ void setResponse (response){
               width: MediaQuery.of(context).size.width/2,
               height: 60,
               color: AppColors.mainWidgetColor,
-              child: HeaderGroup()
+              child: HeaderGroup(IpAddress: IpAddress, setResponse: setResponse,isON:isON)
                   
               ),
         )),
@@ -148,7 +164,7 @@ void setResponse (response){
       bottomSheet: Container(
         height: 125,
         width: double.maxFinite,
-        child: BottomSheetController(isPlaying : currentVideoStatus['playing']),
+        child: BottomSheetController(isPlaying : currentVideoStatus['playing'], IpAddress: IpAddress, setResponse: setResponse,),
       ),
       
       
@@ -172,9 +188,10 @@ void setResponse (response){
                     border: InputBorder.none),
                 
                 onSubmitted: (input){_handleIpFieldSubmitted(input);},
-                onChanged: (input){_handleIpFieldSubmitted(input);},
+
+                onChanged: (input){_handleIpFieldChanged(input);},
               ),
-            ),CurrentlyPlaying(currentVideo:currentVideo),SizedBox(height: 20,),CircleController(setResponse:setResponse,currentVideoStatus:currentVideoStatus,IpAddress:IpAddress), ButtonsGroup(),SizedBox(height: 100,)],
+            ),CurrentlyPlaying(currentVideo:currentVideo, IpAddress: IpAddress, setResponse: setResponse,),SizedBox(height: 20,),CircleController(setResponse:setResponse,currentVideoStatus:currentVideoStatus,IpAddress:IpAddress), ButtonsGroup(IpAddress: IpAddress, setResponse: setResponse,),SizedBox(height: 120,)],
             ),
           ),
         ),
@@ -182,3 +199,4 @@ void setResponse (response){
     );
   }
 }
+

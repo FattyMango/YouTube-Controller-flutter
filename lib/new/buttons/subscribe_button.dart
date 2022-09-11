@@ -12,32 +12,20 @@ class SubscribeButton extends StatefulWidget {
 }
 
 class _SubscribeButtonState extends State<SubscribeButton> {
-  void onSubscribeClicked(){
-    widget.isSubscribed?
-    print("Unsubscribed")
-    :
-    print("subscribed");
-    setState(() {
-      widget.isSubscribed = !widget.isSubscribed ;
-    });
-    
-  }
+
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap:onSubscribeClicked ,
-      child: RectangleButton(
-        width: 52.5,
-        height: 30,
-        text: widget.isSubscribed
-        ?"subscribed"
-        :"Subscribe",
-        isIcon: false,
-        roundedBorder: 3,
-        color: widget.isSubscribed
-        ? AppColors.buttonColor
-        : AppColors.youtubeRed,
-      ),
+    return RectangleButton(
+      width: 52.5,
+      height: 30,
+      text: widget.isSubscribed
+      ?"subscribed"
+      :"Subscribe",
+      isIcon: false,
+      roundedBorder: 3,
+      color: widget.isSubscribed
+      ? AppColors.buttonColor
+      : AppColors.youtubeRed,
     );
   }
 }

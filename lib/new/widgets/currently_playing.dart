@@ -1,26 +1,50 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:youtube_controller/new/buttons/circle_button.dart';
 import 'package:youtube_controller/new/buttons/rectangle_button.dart';
 import 'package:youtube_controller/new/buttons/subscribe_button.dart';
 import 'package:youtube_controller/new/misc/colors.dart';
+import 'package:percent_indicator/percent_indicator.dart';
+import '../../utils/utils.dart';
 
 class CurrentlyPlaying extends StatefulWidget {
+  String IpAddress;
+  final void Function(dynamic) setResponse;
   dynamic currentVideo;
-  CurrentlyPlaying({super.key,required this.currentVideo});
+  CurrentlyPlaying({super.key,required this.currentVideo, required this.IpAddress, required this.setResponse});
 
   @override
   State<CurrentlyPlaying> createState() => _CurrentlyPlayingState();
 }
 
 class _CurrentlyPlayingState extends State<CurrentlyPlaying> {
+  int convertTime(String time){
+    int result = 0;
+    if(time.length == 7){
+    result += int.parse(time[0])*pow(60, 3).toInt()+int.parse(time[2]+time[3])*pow(60, 2).toInt()+int.parse(time[5]+time[6])*(60);
+    }
+    else
+    {
+      result += int.parse(time[0]+time[1])*pow(60, 2).toInt()+int.parse(time[3]+time[4])*(60);
+    }
+
+    print(result);
+    return result;
+
+  }
   @override
   Widget build(BuildContext context) {
     return Container(
+      
         margin: EdgeInsets.only(top: 10),
         height: 175,
         decoration: BoxDecoration(
             color: AppColors.mainWidgetColor,
-            borderRadius: BorderRadius.circular(10)),
+            borderRadius: BorderRadius.circular(10),
+           
+            ),
+        
         child: Container(
           margin: EdgeInsets.only(left: 15, top: 15),
           child: Row(
@@ -70,7 +94,12 @@ class _CurrentlyPlayingState extends State<CurrentlyPlaying> {
                                   color: Colors.white),
                             )),
                         SizedBox(width: 7.5),
-                        SubscribeButton(isSubscribed: widget.currentVideo['subscribed'],)
+                        GestureDetector(
+                          onTap: () async{
+                            var response = await send_command(deviceName: 'Samsung A70',command: '24',ADDRESS: widget.IpAddress);
+                            widget.setResponse(response);
+                          },
+                          child: SubscribeButton(isSubscribed: widget.currentVideo['subscribed'],))
                       ],
                     )
                   ],
@@ -123,16 +152,20 @@ class _CurrentlyPlayingState extends State<CurrentlyPlaying> {
                       SizedBox(
                         width: 5,
                       ),
-                      Container(
-                        width: 95,
-                        height: 2,
-                        color: AppColors.youtubeRed,
-                      ),
-                      Container(
-                        width: 40,
-                        height: 2,
-                        color: Colors.grey,
-                      ),
+                      // Container(
+                      //   width: 95,
+                      //   height: 2,
+                      //   color: AppColors.youtubeRed,
+                      // )
+                      LinearPercentIndicator(
+                      width: 135,
+                      lineHeight: 2,
+                      percent: 0.78,
+                      // convertTime(widget.currentVideo['current_time'])/convertTime(widget.currentVideo['full_time']),
+                     
+                      progressColor: AppColors.youtubeRed,
+                    ),
+                      
                     ],
                   ),
                   SizedBox(
@@ -144,19 +177,31 @@ class _CurrentlyPlayingState extends State<CurrentlyPlaying> {
                       SizedBox(
                         width: 15,
                       ),
-                      CircleButton(
-                          icon: Icons.thumb_up_alt_sharp,
-                          iconColor : widget.currentVideo['like']==true? Colors.blue : Colors.black.withOpacity(0.8),
-                          size: 50,
-                          color: Colors.white.withOpacity(0.92)),
+                      GestureDetector(
+                        onTap: () async{
+                            var response = await send_command(deviceName: 'Samsung A70',command: '22',ADDRESS: widget.IpAddress);
+                            widget.setResponse(response);
+                          },
+                        child: CircleButton(
+                            icon: Icons.thumb_up_alt_sharp,
+                            iconColor : widget.currentVideo['like']==true? Colors.blue : Colors.black.withOpacity(0.8),
+                            size: 50,
+                            color: Colors.white.withOpacity(0.92)),
+                      ),
                       SizedBox(
                         width: 10,
                       ),
-                      CircleButton(
-                          icon: Icons.thumb_down_alt_sharp,
-                          iconColor : widget.currentVideo['dislike']==true? Colors.blue : Colors.black.withOpacity(0.8),
-                          size: 50,
-                          color: Colors.white.withOpacity(0.92)),
+                      GestureDetector(
+                        onTap: () async{
+                            var response = await send_command(deviceName: 'Samsung A70',command: '23',ADDRESS: widget.IpAddress);
+                            widget.setResponse(response);
+                          },
+                        child: CircleButton(
+                            icon: Icons.thumb_down_alt_sharp,
+                            iconColor : widget.currentVideo['dislike']==true? Colors.blue : Colors.black.withOpacity(0.8),
+                            size: 50,
+                            color: Colors.white.withOpacity(0.92)),
+                      ),
                     ],
                   )
                 ],

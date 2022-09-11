@@ -5,8 +5,12 @@ import 'package:youtube_controller/new/buttons/circle_button.dart';
 import 'package:youtube_controller/new/buttons/quality_options.dart';
 import 'package:youtube_controller/new/buttons/rectangle_button.dart';
 
+import '../../utils/utils.dart';
+
 class ButtonsGroup extends StatefulWidget {
-  const ButtonsGroup({super.key});
+  String IpAddress;
+  final void Function(dynamic) setResponse;
+  ButtonsGroup({super.key, required this.setResponse, required this.IpAddress});
 
   @override
   State<ButtonsGroup> createState() => _ButtonsGroupState();
@@ -14,9 +18,11 @@ class ButtonsGroup extends StatefulWidget {
 
 class _ButtonsGroupState extends State<ButtonsGroup> {
   bool pressedQuality = false;
+  bool playBackSpeedQuality = false;
   void onQualityOptionsPressed() {
     setState(() {
       pressedQuality = false;
+      playBackSpeedQuality = false;
     });
   }
 
@@ -29,15 +35,7 @@ class _ButtonsGroupState extends State<ButtonsGroup> {
           SizedBox(
             height: 20,
           ),
-          pressedQuality
-              ? QualityOptions(
-                  pressedQuality: pressedQuality,
-                  onQualityOptionsPressed: onQualityOptionsPressed,
-                )
-              : Container(),
-          SizedBox(
-            height: pressedQuality ? 10 : 0,
-          ),
+
           Padding(
             padding: const EdgeInsets.only(left: 20, right: 20),
             child: Row(
@@ -45,19 +43,35 @@ class _ButtonsGroupState extends State<ButtonsGroup> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 GestureDetector(
-                    onLongPressStart: (deails) {
-                      print('start');
-                      setState(() {
-                        pressedQuality = true;
-                      });
+                    onTap: () async{
+                      var response = send_command(deviceName: 'Samsung A70',command: '51',option: '3',ADDRESS: widget.IpAddress);
+                      widget.setResponse(response);
                     },
-                    onTap: () {
-                      setState(() {
-                        pressedQuality = false;
-                      });
+                  onVerticalDragEnd: (details)async {
+                    if(details.velocity.pixelsPerSecond.dy<0){
+                      var response = await send_command(deviceName: 'Samsung A70',command: '51',option: '1',ADDRESS: widget.IpAddress);
+                      widget.setResponse(response);}
+                    
+                    if(details.velocity.pixelsPerSecond.dy>0){
+                      var response = await send_command(deviceName: 'Samsung A70',command: '51',option: '2',ADDRESS: widget.IpAddress);
+                      widget.setResponse(response);}
                     },
-                    child: RectangleButton(icon: Icons.settings_outlined,)),
-                RectangleButton(icon: Icons.slow_motion_video_outlined )
+
+                    child: RectangleButton(
+                      icon: Icons.settings_outlined,
+                    )),
+                GestureDetector(
+                  onVerticalDragEnd: (details)async {
+                    if(details.velocity.pixelsPerSecond.dy<0){
+                      var response = await send_command(deviceName: 'Samsung A70',command: '28',ADDRESS: widget.IpAddress);
+                      widget.setResponse(response);
+                    }
+                    if(details.velocity.pixelsPerSecond.dy>0){
+                      var response = await send_command(deviceName: 'Samsung A70',command: '29',ADDRESS: widget.IpAddress);
+                      widget.setResponse(response);
+                    }
+                  },
+                  child: RectangleButton(icon: Icons.slow_motion_video_outlined))
               ],
             ),
           ),
@@ -70,10 +84,31 @@ class _ButtonsGroupState extends State<ButtonsGroup> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                RectangleButton(
-                  icon: Icons.skip_previous_outlined,
+                GestureDetector(
+                  onTap: () async{
+                      var response = await send_command(deviceName: 'Samsung A70',command: '25',ADDRESS: widget.IpAddress);
+                      widget.setResponse(response);
+                    },
+                  onHorizontalDragEnd: (details)async {
+                    if(details.velocity.pixelsPerSecond.dx>0){
+                      var response = await send_command(deviceName: 'Samsung A70',command: '21',ADDRESS: widget.IpAddress);
+                      widget.setResponse(response);}
+                    },
+                  child: RectangleButton(
+                    icon: Icons.skip_previous_outlined,
+                  ),
                 ),
-                RectangleButton(icon: Icons.skip_next_outlined),
+                GestureDetector(
+                  onTap: () async{
+                      var response = await send_command(deviceName: 'Samsung A70',command: '26',ADDRESS: widget.IpAddress);
+                      widget.setResponse(response);
+                    },
+                   onHorizontalDragEnd: (details)async {
+                    if(details.velocity.pixelsPerSecond.dx>0){
+                      var response = await send_command(deviceName: 'Samsung A70',command: '20',ADDRESS: widget.IpAddress);
+                      widget.setResponse(response);}
+                    },
+                  child: RectangleButton(icon: Icons.skip_next_outlined)),
               ],
             ),
           ),

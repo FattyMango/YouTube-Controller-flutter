@@ -2,8 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
-import 'package:network_info_plus/network_info_plus.dart';
+
+
 
 class Connection {
   final String deviceName;
@@ -64,7 +64,7 @@ Future<dynamic> send_command(
   var response;
   if (int.parse(command) >= 50)  response = await c.send_message(command:command,option:option.toString());
   else response = await c.send_message(command:command);
-  print(response);
+  print('here'+response);
 
   return json.decode(response, reviver: null);
 }

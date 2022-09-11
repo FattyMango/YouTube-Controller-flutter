@@ -1,3 +1,5 @@
 {
-    "dart.sdkPath": "D:\\flutter_dev\\flutter\\bin\\cache\\dart-sdk"
+    "dart.sdkPath": "D:\\flutter_dev\\flutter\\bin\\cache\\dart-sdk",
+    
+    "editor.suggestOnTriggerCharacters": true,
 }

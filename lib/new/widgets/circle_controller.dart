@@ -12,29 +12,14 @@ class CircleController extends StatefulWidget {
   dynamic currentVideoStatus;
   String IpAddress;
   final void Function(dynamic) setResponse;
-   CircleController({super.key,required this.currentVideoStatus, required this.IpAddress, required this.setResponse});
+  CircleController(
+      {super.key,
+      required this.currentVideoStatus,
+      required this.IpAddress,
+      required this.setResponse});
 
   @override
   State<CircleController> createState() => _CircleControllerState();
-}
-
-dynamic build_circle() {
-  return List.generate(9, (index) {
-    if (index < 3) {
-      if (index == 1)
-        // ignore: prefer_const_constructors
-        return Padding(
-          padding: const EdgeInsets.only(right: 50),
-          child: CircleButton(),
-        );
-      else
-        return CircleButton();
-    }
-    // else if (index > 5) {
-    // }
-    else
-      return CircleButton();
-  });
 }
 
 class _CircleControllerState extends State<CircleController> {
@@ -58,21 +43,44 @@ class _CircleControllerState extends State<CircleController> {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(left: 0, top: 40),
-                  child: CircleButton(
-                    icon: Icons.volume_up_outlined,
+                  child: GestureDetector(
+                    onTap: () async {
+                     
+                    var response = await send_command(deviceName: 'Samsung A70',command: '30',ADDRESS: widget.IpAddress);
+                    widget.setResponse(response);
+                    
+                    },
+                    child: CircleButton(
+                      icon: Icons.volume_up_outlined,
+                    ),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 40),
-                  child: CircleButton(icon: Icons.refresh,),
+                  child: GestureDetector(
+                     onTap: () async{
+                      var response = await send_command(deviceName: 'Samsung A70',command: '17',ADDRESS: widget.IpAddress);
+                      widget.setResponse(response);
+                    },
+                    child: CircleButton(
+                      icon: Icons.refresh_outlined,
+                    ),
+                  ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(right: 0, top: 40),
-                  child: CircleButton(
-                    icon: Icons.play_circle_outline_sharp,
-                    iconColor:widget.currentVideoStatus['auto_play']==true? AppColors.buttonClicked : Colors.black.withOpacity(0.8) ,
-                    )
-                ),
+                    padding: const EdgeInsets.only(right: 0, top: 40),
+                    child: GestureDetector(
+                       onTap: () async{
+                    var response = await send_command(deviceName: 'Samsung A70',command: '27',ADDRESS: widget.IpAddress);
+                    widget.setResponse(response);
+                    },
+                      child: CircleButton(
+                        icon: Icons.play_circle_outline_sharp,
+                        iconColor: widget.currentVideoStatus['auto_play'] == true
+                            ? AppColors.buttonClicked
+                            : Colors.black.withOpacity(0.8),
+                      ),
+                    )),
               ],
             ),
             Row(
@@ -82,36 +90,51 @@ class _CircleControllerState extends State<CircleController> {
                 Padding(
                   padding: const EdgeInsets.only(right: 30),
                   child: GestureDetector(
-                    onTap: () async{
-              var response = await send_command(deviceName: 'Samsung A70',command: '17',ADDRESS: widget.IpAddress);
-              // print( response.runtimeType);
-              // Map<dynamic, dynamic> map = jsonDecode(response)as Map<dynamic, dynamic>;
-              print(response.runtimeType);
-
-              // debugPrint(response, wrapWidth: 1024);
-              
-              
-              widget.setResponse(response);
-            },
+                    onTap: () async {
+                      var response = await send_command(
+                          deviceName: 'Samsung A70',
+                          command: '14',
+                          ADDRESS: widget.IpAddress);
+                      widget.setResponse(response);
+                    },
                     child: CircleButton(
-                      icon: widget.currentVideoStatus['muted']==true?Icons.volume_off_outlined : Icons.volume_mute,
-                    iconColor:widget.currentVideoStatus['muted']==true? AppColors.buttonClicked : Colors.black.withOpacity(0.8)
-                    ),
+                        icon: widget.currentVideoStatus['muted'] == true
+                            ? Icons.volume_off_outlined
+                            : Icons.volume_mute,
+                        iconColor: widget.currentVideoStatus['muted'] == true
+                            ? AppColors.buttonClicked
+                            : Colors.black.withOpacity(0.8)),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(
                     bottom: 0,
                   ),
-                  child: CircleButton(
-                    size: 100,
-                    icon: Icons.home_outlined,
+                  child: GestureDetector(
+                     onTap: () async{
+                      var response = await send_command(deviceName: 'Samsung A70',command: '53',option: "https://www.youtube.com/",ADDRESS: widget.IpAddress);
+                      widget.setResponse(response);
+                    },
+                    child: CircleButton(
+                      size: 100,
+                      icon: Icons.home_outlined,
+                    ),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 30),
-                  child: CircleButton(
-                    icon: Icons.watch_later_outlined,
+                  child: GestureDetector(
+                    onTap:() async{
+                      var response = await send_command(deviceName: 'Samsung A70',command: '0',ADDRESS: widget.IpAddress);
+                      widget.setResponse(response);
+                    } ,
+                    onDoubleTap: () async{
+                      var response = await send_command(deviceName: 'Samsung A70',command: '1',ADDRESS: widget.IpAddress);
+                      widget.setResponse(response);
+                    },
+                    child: CircleButton(
+                      icon: Icons.tips_and_updates_outlined,
+                    ),
                   ),
                 ),
               ],
@@ -122,34 +145,58 @@ class _CircleControllerState extends State<CircleController> {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(left: 0, bottom: 40),
-                  child: CircleButton(
-                    icon: Icons.volume_down_outlined,
+                  child: GestureDetector(
+                    onTap: () async{
+                    var response = await send_command(deviceName: 'Samsung A70',command: '31',ADDRESS: widget.IpAddress);
+                    widget.setResponse(response);
+                    },
+                    child: CircleButton(
+                      icon: Icons.volume_down_outlined,
+                    ),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 40),
                   child: GestureDetector(
-                    onTap: () async{
-              var response = await send_command(deviceName: 'Samsung A70',command: '12',ADDRESS: widget.IpAddress);
-              // print( response.runtimeType);
-              // Map<dynamic, dynamic> map = jsonDecode(response)as Map<dynamic, dynamic>;
-              print(response.runtimeType);
-
-              // debugPrint(response, wrapWidth: 1024);
-              
-              
-              widget.setResponse(response);
-            },
-                    child : CircleButton(
-                    icon: widget.currentVideoStatus['subtitle_available']==true?Icons.subtitles_outlined:Icons.subtitles_off_outlined,
-                    iconColor: widget.currentVideoStatus['subtitle_available']==true? widget.currentVideoStatus['subtitle_pressed']?AppColors.buttonClicked : Colors.black.withOpacity(0.8):Colors.black.withOpacity(0.8),
-                  )),
+                      onTap: () async {
+                        var response = await send_command(
+                            deviceName: 'Samsung A70',
+                            command: '12',
+                            ADDRESS: widget.IpAddress);
+                        widget.setResponse(response);
+                      },
+                      child: CircleButton(
+                        icon: widget.currentVideoStatus['subtitle_available'] ==
+                                true
+                            ? Icons.subtitles_outlined
+                            : Icons.subtitles_off_outlined,
+                        iconColor:
+                            widget.currentVideoStatus['subtitle_available'] ==
+                                    true
+                                ? widget.currentVideoStatus['subtitle_pressed']
+                                    ? AppColors.buttonClicked
+                                    : Colors.black.withOpacity(0.8)
+                                : Colors.black.withOpacity(0.8),
+                      )),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 0, bottom: 40),
-                  child: CircleButton(
-                    icon: widget.currentVideoStatus['full_screen']==true?Icons.fullscreen_exit : Icons.fullscreen_sharp,
-                    iconColor: widget.currentVideoStatus['full_screen']==true?AppColors.buttonClicked : Colors.black.withOpacity(0.8)
+                  child: GestureDetector(
+                     onTap: () async {
+                        var response = await send_command(
+                            deviceName: 'Samsung A70',
+                            command: '13',
+                            ADDRESS: widget.IpAddress);
+                        widget.setResponse(response);
+                      },
+                    child: CircleButton(
+                        icon: widget.currentVideoStatus['full_screen'] == true
+                            ? Icons.fullscreen_exit
+                            : Icons.fullscreen_sharp,
+                        iconColor:
+                            widget.currentVideoStatus['full_screen'] == true
+                                ? AppColors.buttonClicked
+                                : Colors.black.withOpacity(0.8)),
                   ),
                 ),
               ],
